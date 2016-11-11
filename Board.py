@@ -127,15 +127,19 @@ class Board:
             choice += 1
             if choice < 6:
                 self.player1.array[choice] += 1
-            elif choice == 6:
+            elif choice == 6 and player:
                 self.player1.bean_count += 1
             elif (choice > 6) and (choice < 13):
                 self.player2.array[int(math.fabs(choice - 7))] += 1
-            elif choice == 13:
+            elif choice == 13 and not player:
                 self.player2.bean_count += 1
             elif choice == 14:
                 choice = 0
                 self.player1.array[choice] += 1
+            else:
+                if not player:
+                    choice = 7
+                    self.player2.array[int(math.fabs(choice - 7))] += 1
         if player:
             if choice == 6:
                 return True
@@ -148,7 +152,7 @@ class Board:
                 self.player1.array[choice] = 0
                 self.player2.array[int(math.fabs(choice - 5))] = 0
         if (choice > 6) and choice < 13 and self.player2.array[int(math.fabs(choice - 7))] == 1 and self.player1.array[
-            int(math.fabs(choice - 7 - 5))] != 1:
+            int(math.fabs(choice - 7 - 5))] > 0:
             if not player:
                 self.player2.bean_count += self.player1.array[int(math.fabs(choice - 7 - 5))] + 1
                 self.player2.array[int(math.fabs(choice - 7))] = 0
